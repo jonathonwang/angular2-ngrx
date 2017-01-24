@@ -1,0 +1,130 @@
+.btn-rounded {
+  border-radius: 100px;
+}
+.btn-create {
+  width: 30px;
+  height: 30px;
+  margin-top: -5px;
+  background-color: transparent;
+  font-weight: 700;
+  overflow: hidden;
+  transition: .2s ease all;
+
+  @media(max-width: 991px) {
+    width: 105px;
+
+    .plus-text {
+      margin-left: 5px;
+    }
+
+    .create-text {
+      width: auto;
+      margin: 0 0 0 5px;
+      overflow: hidden;
+      transition: .2s ease all;
+      opacity: 1 !important;
+    }
+  }
+
+  .plus-text {
+    margin-left: 5px;
+  }
+
+  .create-text {
+    width: 0;
+    overflow: hidden;
+    margin: 0 0 0 5px;
+    opacity: 0;
+    transition: .2s ease all;
+  }
+
+  &:hover {
+    width: 105px;
+    .create-text {
+      width: auto;
+      opacity: 1;
+    }
+  }
+
+  &.planned {
+    color: $warning;
+    border-color: $warning;
+
+    &:hover {
+      color: darken($warning, 10%);
+      border-color: darken($warning, 10%);
+    }
+  }
+  &.in-progress {
+    color: $default;
+    border-color: $default;
+
+    &:hover {
+      color: darken($default, 10%);
+      border-color: darken($default, 10%);
+    }
+  }
+  &.completed {
+    color: $success;
+    border-color: $success;
+
+    &:hover {
+      color: darken($success, 10%);
+      border-color: darken($success, 10%);
+    }
+  }
+}
+
+.btn-default {
+  color: lighten($secondary-font-color, 25%);
+  border: 1px solid lighten($secondary-font-color, 25%);
+  font-weight: 700;
+
+  +.btn-default {
+    margin-right: 5px;
+  }
+
+  &:hover {
+    color: lighten($secondary-font-color, 35%);
+    border: 1px solid lighten($secondary-font-color, 35%);
+    background-color: transparent;
+  }
+
+  &.active {
+    border-color: $default;
+    color: $default;
+    background-color: transparent;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0);
+
+    &:hover {
+      border-color: darken($default, 10%);
+      color: darken($default, 10%);
+      background-color: transparent;
+    }
+    &:focus {
+      border-color: $default;
+      color: $default;
+      background-color: transparent;
+      outline: none;
+    }
+  }
+
+  &.btn-borderless {
+    border: 0 solid transparent;
+  }
+}
+
+.badge {
+  background-color: lighten($secondary-font-color, 25%);
+
+  &.planned {
+    background-color: $warning;
+  }
+
+  &.in-progress {
+    background-color: $default;
+  }
+  &.completed {
+    background-color: $success;
+  }
+}

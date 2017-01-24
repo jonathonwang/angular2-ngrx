@@ -1,0 +1,101 @@
+.category-container {
+  +.category-container {
+  @media(max-width: 991px) {
+      margin-top: 50px;
+    }
+  }
+
+  .category {
+    min-height: 220px;
+    max-height: calc(100vh - 74px);
+    padding: 0;
+    background-color: lighten($light-grey, 10%);
+    border-radius: 3px;
+    box-shadow: 0px 0px 10px darken($light-grey, 10%);
+    transition: .3s ease-in-out box-shadow;
+
+    &:hover {
+      box-shadow: 0px 0px 20px darken($light-grey, 20%);
+    }
+
+    .category-title {
+      position: relative;
+      padding: 25px 0 50px;
+
+      h4 {
+        position: relative;
+        margin: 0;
+        font-weight: 400;
+
+        &:before {
+          position: absolute;
+          left: 19px;
+          bottom: -5px;
+          width: 20px;
+          height: 2px;
+          content: ' ';
+        }
+        &.planned {
+          &:before {
+            background-color: $warning;
+          }
+        }
+        &.in-progress {
+          &:before {
+            background-color: $default;
+          }
+        }
+        &.completed {
+          &:before {
+            background-color: $success;
+          }
+        }
+        &.archived {
+          &:before {
+            background-color: lighten($secondary-font-color, 20%);
+          }
+        }
+
+        span {
+          font-size: 15px;
+
+          &.fa-circle-o {
+            color: $warning;
+          }
+          &.fa-check-circle-o {
+            color: $success;
+          }
+          &.fa-dot-circle-o {
+            color: $default;
+          }
+          &.fa-circle {
+            color: lighten($secondary-font-color, 20%);
+          }
+        }
+      }
+
+    }
+
+    .category-status {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 21px;
+      padding: 0 15px;
+      text-align: center;
+      background-color: #fff;
+
+      @media(max-width: 1200px) {
+        bottom: 0;
+      }
+    }
+
+    .category-body {
+      padding: 0 15px 55px;
+      min-height: 200px;
+      max-height: calc(100vh - 162px);
+      overflow-y: scroll;
+    }
+
+  }
+}
