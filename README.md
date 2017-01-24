@@ -1,4 +1,4 @@
-# Angular 2 Todo
+# Angular 2 ngrx scaffold
 
 ### Installation & Setup
 * Clone Repo
@@ -6,4 +6,3 @@
 * Run `npm install`
 * run `webpack-dev-server`
 * run `json-server --watch db.json`
-* open http://localhost:8080
