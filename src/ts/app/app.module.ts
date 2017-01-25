@@ -13,6 +13,10 @@ import { AppComponent } from './app.component';
 // Reducer Imports
 import { taskReducer } from './reducers/task.reducer';
 
+const combinedReducers = StoreModule.provideStore({
+  tasks: taskReducer,
+});
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +26,7 @@ import { taskReducer } from './reducers/task.reducer';
     FormsModule,
     HttpModule,
     // Store module
-    StoreModule.provideStore({ tasks: taskReducer })
+    combinedReducers
   ],
   providers: [],
   bootstrap: [AppComponent]

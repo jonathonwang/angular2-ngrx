@@ -1,1 +1,7 @@
-export const CREATE_TASK = 'CREATE_TASK';
+export const createTask = (state, task) => {
+  console.log(task);
+};
+
+export default {
+  createTask
+};

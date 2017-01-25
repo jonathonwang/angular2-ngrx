@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 // Action Imports
-import { CREATE_TASK } from './actions/task.actions';
+import { CREATE_TASK } from './action-types/task.action-types';
 // Model Imports
 import { Task } from './models/task.model';
 // Api Import

@@ -56,7 +56,7 @@
 	
 	var _app = __webpack_require__(282);
 	
-	var _env = __webpack_require__(313);
+	var _env = __webpack_require__(314);
 	
 	if (_env.env.production === false) {
 	    (0, _core.enableProdMode)();
@@ -57829,7 +57829,7 @@
 	
 	var _app = __webpack_require__(310);
 	
-	var _task = __webpack_require__(312);
+	var _task = __webpack_require__(313);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -67572,7 +67572,7 @@
 	
 	var _store = __webpack_require__(283);
 	
-	var _task = __webpack_require__(314);
+	var _task = __webpack_require__(311);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -67612,7 +67612,7 @@
 	}();
 	exports.AppComponent = AppComponent = __decorate([(0, _core.Component)({
 	    selector: 'app',
-	    template: __webpack_require__(311)
+	    template: __webpack_require__(312)
 	}), __metadata("design:paramtypes", [_store.Store])], AppComponent);
 	exports.AppComponent = AppComponent;
 
@@ -67620,10 +67620,21 @@
 /* 311 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"\">\n  {{ tasks }}\n</div>\n"
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var CREATE_TASK = exports.CREATE_TASK = 'CREATE_TASK';
 
 /***/ },
 /* 312 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"\">\n  {{ tasks }}\n</div>\n"
+
+/***/ },
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -67633,7 +67644,7 @@
 	});
 	exports.taskReducer = undefined;
 	
-	var _task = __webpack_require__(314);
+	var _task = __webpack_require__(311);
 	
 	var initialState = [];
 	var taskReducer = exports.taskReducer = function taskReducer() {
@@ -67650,7 +67661,7 @@
 	};
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -67663,17 +67674,6 @@
 	    serverUrl: 'http://localhost:3000'
 	};
 	exports.default = env;
-
-/***/ },
-/* 314 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var CREATE_TASK = exports.CREATE_TASK = 'CREATE_TASK';
 
 /***/ }
 /******/ ]);
