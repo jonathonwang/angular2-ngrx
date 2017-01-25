@@ -1,0 +1,4 @@
+<div class="alert alert-dismissable text-capitalize text-center" [class.show]="alert.visible" [class.alert-danger]="alert.status === 'danger'" [class.alert-warning]="alert.status === 'warning'" [class.alert-success]="alert-status === 'success'" [class.alert-info]="alert.status === 'info'">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="closeAlert($event)">&times;</a>
+  <strong>{{alert.status}}!</strong> {{alert.message}}
+</div>

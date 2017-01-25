@@ -56,7 +56,7 @@
 	
 	var _app = __webpack_require__(282);
 	
-	var _env = __webpack_require__(314);
+	var _env = __webpack_require__(324);
 	
 	if (_env.env.production === false) {
 	    (0, _core.enableProdMode)();
@@ -57829,7 +57829,15 @@
 	
 	var _app = __webpack_require__(310);
 	
-	var _task = __webpack_require__(313);
+	var _createForm = __webpack_require__(312);
+	
+	var _alert = __webpack_require__(319);
+	
+	var _task = __webpack_require__(321);
+	
+	var _createForm2 = __webpack_require__(322);
+	
+	var _alert2 = __webpack_require__(323);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -57842,12 +57850,18 @@
 	    }return c > 3 && r && Object.defineProperty(target, key, r), r;
 	};
 	
+	var declarations = [_app.AppComponent, _createForm.CreateFormComponent, _alert.AlertComponent];
+	var combinedReducers = _store.StoreModule.provideStore({
+	    tasks: _task.taskReducer,
+	    createForm: _createForm2.createFormReducer,
+	    alert: _alert2.alertReducer
+	});
 	var AppModule = function AppModule() {
 	    _classCallCheck(this, AppModule);
 	};
 	exports.AppModule = AppModule = __decorate([(0, _core.NgModule)({
-	    declarations: [_app.AppComponent],
-	    imports: [_platformBrowser.BrowserModule, _forms.FormsModule, _http.HttpModule, _store.StoreModule.provideStore({ tasks: _task.taskReducer })],
+	    declarations: declarations,
+	    imports: [_platformBrowser.BrowserModule, _forms.FormsModule, _http.HttpModule, combinedReducers],
 	    providers: [],
 	    bootstrap: [_app.AppComponent]
 	})], AppModule);
@@ -67572,8 +67586,6 @@
 	
 	var _store = __webpack_require__(283);
 	
-	var _task = __webpack_require__(311);
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
@@ -67590,29 +67602,22 @@
 	
 	var AppComponent = function () {
 	    function AppComponent(store) {
-	        var _this = this;
-	
 	        _classCallCheck(this, AppComponent);
 	
 	        this.store = store;
-	        this.subscription = store.select('tasks').subscribe(function (tasks) {
-	            return _this.tasks = tasks;
-	        });
+	        this.tasks = this.store.select('tasks');
 	    }
 	
 	    _createClass(AppComponent, [{
 	        key: "ngOnInit",
-	        value: function ngOnInit() {
-	            console.log(this.tasks);
-	            this.store.dispatch({ type: _task.CREATE_TASK, payload: '123' });
-	        }
+	        value: function ngOnInit() {}
 	    }]);
 	
 	    return AppComponent;
 	}();
 	exports.AppComponent = AppComponent = __decorate([(0, _core.Component)({
 	    selector: 'app',
-	    template: __webpack_require__(312)
+	    template: __webpack_require__(311)
 	}), __metadata("design:paramtypes", [_store.Store])], AppComponent);
 	exports.AppComponent = AppComponent;
 
@@ -67620,21 +67625,307 @@
 /* 311 */
 /***/ function(module, exports) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var CREATE_TASK = exports.CREATE_TASK = 'CREATE_TASK';
+	module.exports = "<div class=\"container\">\n  <div class=\"row\">\n    <div class=\"col-xs-12\">\n      {{ tasks | async | json }}\n      <!-- Create Form Component -->\n      <create-form></create-form>\n      <!-- /Create Form Component -->\n      <!-- Alert Component -->\n      <!-- /Alert Component -->\n    </div>\n  </div>\n</div>\n\n\n<alert></alert>\n"
 
 /***/ },
 /* 312 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<div class=\"\">\n  {{ tasks }}\n</div>\n"
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.CreateFormComponent = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
+	var _core = __webpack_require__(262);
+	
+	var _store = __webpack_require__(283);
+	
+	var _task = __webpack_require__(313);
+	
+	var _createForm = __webpack_require__(314);
+	
+	var createForm = _interopRequireWildcard(_createForm);
+	
+	var _task2 = __webpack_require__(316);
+	
+	var task = _interopRequireWildcard(_task2);
+	
+	var _alert = __webpack_require__(317);
+	
+	var alert = _interopRequireWildcard(_alert);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
+	    var c = arguments.length,
+	        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+	        d;
+	    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+	        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    }return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = undefined && undefined.__metadata || function (k, v) {
+	    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	
+	var CreateFormComponent = function () {
+	    function CreateFormComponent(store) {
+	        var _this = this;
+	
+	        _classCallCheck(this, CreateFormComponent);
+	
+	        this.store = store;
+	        this.subscription = this.store.select('createForm').subscribe(function (createForm) {
+	            return _this.createForm = createForm;
+	        });
+	    }
+	
+	    _createClass(CreateFormComponent, [{
+	        key: "updateInput",
+	        value: function updateInput(event) {
+	            var name = event.target.name;
+	            var value = event.target.value;
+	            this.store.dispatch(new createForm.UpdateCreateInputAction({ name: name, value: value }));
+	        }
+	    }, {
+	        key: "createTask",
+	        value: function createTask(event) {
+	            event.preventDefault();
+	            if (this.createForm.title.length > 0 && this.createForm.status.length > 0) {
+	                this.store.dispatch(new task.CreateTaskAction(new _task.Task({ title: this.createForm.title, status: this.createForm.status })));
+	                this.store.dispatch(new createForm.ResetCreateFormAction());
+	                this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
+	            } else {
+	                this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: 'Title and Status are Required' }));
+	            }
+	        }
+	    }]);
+	
+	    return CreateFormComponent;
+	}();
+	exports.CreateFormComponent = CreateFormComponent = __decorate([(0, _core.Component)({
+	    selector: 'create-form',
+	    template: __webpack_require__(318)
+	}), __metadata("design:paramtypes", [_store.Store])], CreateFormComponent);
+	exports.CreateFormComponent = CreateFormComponent;
 
 /***/ },
 /* 313 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Task = exports.Task = function Task(taskData) {
+	    _classCallCheck(this, Task);
+	
+	    if (taskData.id) this.id = taskData.id;
+	    this.title = taskData.title;
+	    this.status = taskData.status;
+	};
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.ResetCreateFormAction = exports.UpdateCreateInputAction = exports.ActionTypes = undefined;
+	
+	var _util = __webpack_require__(315);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var ActionTypes = exports.ActionTypes = {
+	    UPDATE_CREATE_TASK_INPUT: (0, _util.type)('[Create Form] Update Input'),
+	    RESET_CREATE_FORM: (0, _util.type)('[Create Form] Reset Fields')
+	};
+	
+	var UpdateCreateInputAction = exports.UpdateCreateInputAction = function UpdateCreateInputAction(payload) {
+	    _classCallCheck(this, UpdateCreateInputAction);
+	
+	    this.payload = payload;
+	    this.type = ActionTypes.UPDATE_CREATE_TASK_INPUT;
+	};
+	
+	var ResetCreateFormAction = exports.ResetCreateFormAction = function ResetCreateFormAction() {
+	    _classCallCheck(this, ResetCreateFormAction);
+	
+	    this.type = ActionTypes.RESET_CREATE_FORM;
+	};
+
+/***/ },
+/* 315 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.type = type;
+	var typeCache = {};
+	function type(label) {
+	    if (typeCache[label]) {
+	        throw new Error("Action type \"" + label + "\" is not unique\"");
+	    }
+	    typeCache[label] = true;
+	    return label;
+	}
+
+/***/ },
+/* 316 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var ActionTypes = exports.ActionTypes = {
+	    CREATE_TASK: 'CREATE_TASK'
+	};
+	
+	var CreateTaskAction = exports.CreateTaskAction = function CreateTaskAction(payload) {
+	    _classCallCheck(this, CreateTaskAction);
+	
+	    this.payload = payload;
+	    this.type = ActionTypes.CREATE_TASK;
+	};
+
+/***/ },
+/* 317 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.HideAlertAction = exports.ShowAlertAction = exports.ActionTypes = undefined;
+	
+	var _util = __webpack_require__(315);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var ActionTypes = exports.ActionTypes = {
+	    SHOW_ALERT: (0, _util.type)('[Alert] Display Alert'),
+	    HIDE_ALERT: (0, _util.type)('[Alert] Hide Alert')
+	};
+	
+	var ShowAlertAction = exports.ShowAlertAction = function ShowAlertAction(payload) {
+	    _classCallCheck(this, ShowAlertAction);
+	
+	    this.payload = payload;
+	    this.type = ActionTypes.SHOW_ALERT;
+	};
+	
+	var HideAlertAction = exports.HideAlertAction = function HideAlertAction() {
+	    _classCallCheck(this, HideAlertAction);
+	
+	    this.type = ActionTypes.HIDE_ALERT;
+	};
+
+/***/ },
+/* 318 */
+/***/ function(module, exports) {
+
+	module.exports = "<form>\n  <div class=\"form-group\">\n    <label for=\"title\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\">\n  </div>\n  <div class=\"form-group\">\n    <label for=\"status\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\">\n      <option value=\"\">Choose a Status</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"createTask($event)\">\n  </div>\n</form>\n"
+
+/***/ },
+/* 319 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.AlertComponent = undefined;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
+	var _core = __webpack_require__(262);
+	
+	var _store = __webpack_require__(283);
+	
+	var _alert = __webpack_require__(317);
+	
+	var alert = _interopRequireWildcard(_alert);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var __decorate = undefined && undefined.__decorate || function (decorators, target, key, desc) {
+	    var c = arguments.length,
+	        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+	        d;
+	    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+	        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    }return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = undefined && undefined.__metadata || function (k, v) {
+	    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	
+	var AlertComponent = function () {
+	    function AlertComponent(store) {
+	        var _this = this;
+	
+	        _classCallCheck(this, AlertComponent);
+	
+	        this.store = store;
+	        this.subscription = this.store.select('alert').subscribe(function (alert) {
+	            return _this.alert = alert;
+	        });
+	    }
+	
+	    _createClass(AlertComponent, [{
+	        key: "closeAlert",
+	        value: function closeAlert(event) {
+	            event.preventDefault();
+	            this.store.dispatch(new alert.HideAlertAction());
+	        }
+	    }]);
+	
+	    return AlertComponent;
+	}();
+	exports.AlertComponent = AlertComponent = __decorate([(0, _core.Component)({
+	    selector: 'alert',
+	    template: __webpack_require__(320)
+	}), __metadata("design:paramtypes", [_store.Store])], AlertComponent);
+	exports.AlertComponent = AlertComponent;
+
+/***/ },
+/* 320 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"alert alert-dismissable text-capitalize text-center\" [class.show]=\"alert.visible\" [class.alert-danger]=\"alert.status === 'danger'\" [class.alert-warning]=\"alert.status === 'warning'\" [class.alert-success]=\"alert-status === 'success'\" [class.alert-info]=\"alert.status === 'info'\">\n  <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"closeAlert($event)\">&times;</a>\n  <strong>{{alert.status}}!</strong> {{alert.message}}\n</div>\n"
+
+/***/ },
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -67644,7 +67935,9 @@
 	});
 	exports.taskReducer = undefined;
 	
-	var _task = __webpack_require__(311);
+	var _task = __webpack_require__(316);
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
 	var initialState = [];
 	var taskReducer = exports.taskReducer = function taskReducer() {
@@ -67652,16 +67945,86 @@
 	    var action = arguments[1];
 	
 	    switch (action.type) {
-	        case _task.CREATE_TASK:
+	        case _task.ActionTypes.CREATE_TASK:
 	            var task = action.payload;
-	            console.log(task);
+	            return [].concat(_toConsumableArray(state), [task]);
 	        default:
 	            return state;
 	    }
 	};
 
 /***/ },
-/* 314 */
+/* 322 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.createFormReducer = undefined;
+	
+	var _createForm = __webpack_require__(314);
+	
+	var initialState = {
+	    title: '',
+	    status: ''
+	};
+	var createFormReducer = exports.createFormReducer = function createFormReducer() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _createForm.ActionTypes.UPDATE_CREATE_TASK_INPUT:
+	            state[action.payload.name] = action.payload.value;
+	            return state;
+	        case _createForm.ActionTypes.RESET_CREATE_FORM:
+	            state.title = '';
+	            state.status = '';
+	            return state;
+	        default:
+	            return state;
+	    }
+	};
+
+/***/ },
+/* 323 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.alertReducer = undefined;
+	
+	var _alert = __webpack_require__(317);
+	
+	var initialState = {
+	    status: '',
+	    message: '',
+	    visible: false
+	};
+	var alertReducer = exports.alertReducer = function alertReducer() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _alert.ActionTypes.SHOW_ALERT:
+	            state.status = action.payload.status;
+	            state.message = action.payload.message;
+	            state.visible = true;
+	            return state;
+	        case _alert.ActionTypes.HIDE_ALERT:
+	            state.visible = false;
+	            return state;
+	        default:
+	            return state;
+	    }
+	};
+
+/***/ },
+/* 324 */
 /***/ function(module, exports) {
 
 	'use strict';

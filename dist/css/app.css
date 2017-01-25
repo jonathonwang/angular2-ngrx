@@ -6030,7 +6030,8 @@ body {
   overflow: hidden;
   margin-bottom: 0;
   z-index: 10000;
-  transition: .4s ease-in-out all; }
+  transition: .4s ease-in-out all;
+  border: 0 solid transparent; }
   .alert .alert-message {
     font-size: 16px; }
   .alert.show {
