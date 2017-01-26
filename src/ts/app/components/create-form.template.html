@@ -1,10 +1,10 @@
 <form>
-  <div class="form-group">
-    <label for="title">Title:</label>
+  <div class="form-group" [class.has-error]="createForm.missingFields.includes('title')">
+    <label for="title" class="control-label">Title:</label>
     <input type="text" name="title" class="form-control" [ngModel]="createForm.title" (keyup)="updateInput($event)">
   </div>
-  <div class="form-group">
-    <label for="status">Status:</label>
+  <div class="form-group" [class.has-error]="createForm.missingFields.includes('status')">
+    <label for="status" class="control-label">Status:</label>
     <select class="form-control" name="status" [ngModel]="createForm.status" (change)="updateInput($event)">
       <option value="">--Choose a Status--</option>
       <option value="planned">Planned</option>

@@ -8,11 +8,13 @@ import { ActionTypes } from '../actions/create-form.actions';
 // the initial state of the tasks
 const initialState = {
   title: '',
-  status: ''
+  status: '',
+  missingFields: []
 };
 
 export const createFormReducer: ActionReducer<any> = (state = initialState, action: Action) => {
   switch (action.type) {
+
     case ActionTypes.UPDATE_CREATE_TASK_INPUT:
       state[action.payload.name] = action.payload.value;
       return state;
@@ -20,6 +22,10 @@ export const createFormReducer: ActionReducer<any> = (state = initialState, acti
     case ActionTypes.RESET_CREATE_FORM:
       state.title = '';
       state.status = '';
+      return state;
+
+    case ActionTypes.SHOW_REQUIRED_FIELD_ERRORS:
+      state.missingFields = action.payload.missingFields;
       return state;
 
     // Return state if action type is unknown

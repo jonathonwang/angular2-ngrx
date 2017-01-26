@@ -67698,13 +67698,24 @@
 	    }, {
 	        key: "createTask",
 	        value: function createTask(event) {
+	            var _this2 = this;
+	
 	            event.preventDefault();
 	            if (this.createForm.title.length > 0 && this.createForm.status.length > 0) {
 	                this.store.dispatch(new task.CreateTaskAction(new _task.Task({ title: this.createForm.title, status: this.createForm.status })));
 	                this.store.dispatch(new createForm.ResetCreateFormAction());
 	                this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
+	                this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields: [] }));
 	            } else {
-	                this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: 'Title and Status are Required' }));
+	                (function () {
+	                    var requiredFields = ['title', 'status'];
+	                    var missingFields = [];
+	                    requiredFields.map(function (field) {
+	                        _this2.createForm[field].length === 0 ? missingFields.push(field) : '';
+	                    });
+	                    _this2.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields: missingFields }));
+	                    _this2.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: 'Title and Status are Required' }));
+	                })();
 	            }
 	        }
 	    }]);
@@ -67746,7 +67757,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.ResetCreateFormAction = exports.UpdateCreateInputAction = exports.ActionTypes = undefined;
+	exports.ShowErrorOnRequiredFieldsAction = exports.ResetCreateFormAction = exports.UpdateCreateInputAction = exports.ActionTypes = undefined;
 	
 	var _util = __webpack_require__(315);
 	
@@ -67754,7 +67765,8 @@
 	
 	var ActionTypes = exports.ActionTypes = {
 	    UPDATE_CREATE_TASK_INPUT: (0, _util.type)('[Create Form] Update Input'),
-	    RESET_CREATE_FORM: (0, _util.type)('[Create Form] Reset Fields')
+	    RESET_CREATE_FORM: (0, _util.type)('[Create Form] Reset Fields'),
+	    SHOW_REQUIRED_FIELD_ERRORS: (0, _util.type)('[Create Form] Show Errors')
 	};
 	
 	var UpdateCreateInputAction = exports.UpdateCreateInputAction = function UpdateCreateInputAction(payload) {
@@ -67768,6 +67780,13 @@
 	    _classCallCheck(this, ResetCreateFormAction);
 	
 	    this.type = ActionTypes.RESET_CREATE_FORM;
+	};
+	
+	var ShowErrorOnRequiredFieldsAction = exports.ShowErrorOnRequiredFieldsAction = function ShowErrorOnRequiredFieldsAction(payload) {
+	    _classCallCheck(this, ShowErrorOnRequiredFieldsAction);
+	
+	    this.payload = payload;
+	    this.type = ActionTypes.SHOW_REQUIRED_FIELD_ERRORS;
 	};
 
 /***/ },
@@ -67849,7 +67868,7 @@
 /* 318 */
 /***/ function(module, exports) {
 
-	module.exports = "<form>\n  <div class=\"form-group\">\n    <label for=\"title\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\">\n  </div>\n  <div class=\"form-group\">\n    <label for=\"status\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\">\n      <option value=\"\">Choose a Status</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"createTask($event)\">\n  </div>\n</form>\n"
+	module.exports = "<form>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('title')\">\n    <label for=\"title\" class=\"control-label\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\">\n  </div>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('status')\">\n    <label for=\"status\" class=\"control-label\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\">\n      <option value=\"\">--Choose a Status--</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"createTask($event)\">\n  </div>\n</form>\n"
 
 /***/ },
 /* 319 */
@@ -67922,7 +67941,7 @@
 /* 320 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"alert alert-dismissable text-capitalize text-center\" [class.show]=\"alert.visible\" [class.alert-danger]=\"alert.status === 'danger'\" [class.alert-warning]=\"alert.status === 'warning'\" [class.alert-success]=\"alert-status === 'success'\" [class.alert-info]=\"alert.status === 'info'\">\n  <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\" (click)=\"closeAlert($event)\">&times;</a>\n  <strong>{{alert.status}}!</strong> {{alert.message}}\n</div>\n"
+	module.exports = "<div class=\"alert alert-{{alert.status}} alert-dismissable text-capitalize text-center\"\n  [class.show]=\"alert.visible\"\n>\n  <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\"\n  (click)=\"closeAlert($event)\"\n  >\n    &times;\n  </a>\n  <strong>{{alert.status}}!</strong>\n  {{alert.message}}\n</div>\n"
 
 /***/ },
 /* 321 */
@@ -67968,7 +67987,8 @@
 	
 	var initialState = {
 	    title: '',
-	    status: ''
+	    status: '',
+	    missingFields: []
 	};
 	var createFormReducer = exports.createFormReducer = function createFormReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -67981,6 +68001,9 @@
 	        case _createForm.ActionTypes.RESET_CREATE_FORM:
 	            state.title = '';
 	            state.status = '';
+	            return state;
+	        case _createForm.ActionTypes.SHOW_REQUIRED_FIELD_ERRORS:
+	            state.missingFields = action.payload.missingFields;
 	            return state;
 	        default:
 	            return state;

@@ -14,6 +14,7 @@ import * as alert from '../actions/alert.actions';
 interface ICreateFormState {
   title: string;
   status: string;
+  missingFields: Array<string>;
 }
 
 @Component({
@@ -39,7 +40,14 @@ export class CreateFormComponent {
       this.store.dispatch(new task.CreateTaskAction(new Task({ title: this.createForm.title, status: this.createForm.status })));
       this.store.dispatch(new createForm.ResetCreateFormAction());
       this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
+      this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields: [] }));
     } else {
+      const requiredFields = ['title', 'status'];
+      const missingFields = [];
+      requiredFields.map((field) => {
+        this.createForm[field].length === 0 ? missingFields.push(field) : '';
+      });
+      this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields }));
       this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: 'Title and Status are Required' }));
     }
   }
