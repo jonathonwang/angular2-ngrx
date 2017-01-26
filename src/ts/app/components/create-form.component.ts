@@ -48,7 +48,7 @@ export class CreateFormComponent {
         this.createForm[field].length === 0 ? missingFields.push(field) : '';
       });
       this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields }));
-      this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: 'Title and Status are Required' }));
+      this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: `${missingFields.map((field) => missingFields.indexOf(field) !== missingFields.length - 1 ? `${field} And` : ` ${field}`)} ${missingFields.length > 1 ? 'Are' : 'Is'} Required` }));
     }
   }
 }

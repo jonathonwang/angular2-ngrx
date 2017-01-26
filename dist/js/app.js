@@ -67714,7 +67714,9 @@
 	                        _this2.createForm[field].length === 0 ? missingFields.push(field) : '';
 	                    });
 	                    _this2.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields: missingFields }));
-	                    _this2.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: 'Title and Status are Required' }));
+	                    _this2.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: missingFields.map(function (field) {
+	                            return missingFields.indexOf(field) !== missingFields.length - 1 ? field + " And" : " " + field;
+	                        }) + " " + (missingFields.length > 1 ? 'Are' : 'Is') + " Required" }));
 	                })();
 	            }
 	        }
