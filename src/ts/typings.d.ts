@@ -1,2 +1,2 @@
 // Declare global variables
-declare var require: any;
+// declare var require: any;
