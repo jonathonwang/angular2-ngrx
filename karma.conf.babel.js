@@ -11,7 +11,8 @@ module.exports = function (config) {
       require('karma-phantomjs-launcher'),
       require('karma-remap-istanbul'),
       require('karma-webpack'),
-      require('karma-sourcemap-loader')
+      require('karma-sourcemap-loader'),
+      require('karma-spec-reporter')
     ],
     files: [
       './src/ts/tests/karma.entry.ts'
@@ -28,7 +29,11 @@ module.exports = function (config) {
     //     lcovonly: './coverage/coverage.lcov'
     //   }
     // },
-    reporters: ['progress', 'karma-remap-istanbul'],
+    reporters: [
+      'spec',
+
+      // 'karma-remap-istanbul'
+    ],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
