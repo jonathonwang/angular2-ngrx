@@ -67691,9 +67691,7 @@
 	    _createClass(CreateFormComponent, [{
 	        key: "updateInput",
 	        value: function updateInput(event) {
-	            var name = event.target.name;
-	            var value = event.target.value;
-	            this.store.dispatch(new createForm.UpdateCreateInputAction({ name: name, value: value }));
+	            this.store.dispatch(new createForm.UpdateCreateInputAction({ name: event.target.name, value: event.target.value }));
 	        }
 	    }, {
 	        key: "createTask",
@@ -67705,7 +67703,7 @@
 	                this.store.dispatch(new task.CreateTaskAction(new _task.Task({ title: this.createForm.title, status: this.createForm.status })));
 	                this.store.dispatch(new createForm.ResetCreateFormAction());
 	                this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
-	                this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields: [] }));
+	                this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
 	            } else {
 	                (function () {
 	                    var requiredFields = ['title', 'status'];
@@ -67759,7 +67757,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.ShowErrorOnRequiredFieldsAction = exports.ResetCreateFormAction = exports.UpdateCreateInputAction = exports.ActionTypes = undefined;
+	exports.ResetErrorOnRequiredFieldsAction = exports.ShowErrorOnRequiredFieldsAction = exports.ResetCreateFormAction = exports.UpdateCreateInputAction = exports.ActionTypes = undefined;
 	
 	var _util = __webpack_require__(315);
 	
@@ -67768,7 +67766,8 @@
 	var ActionTypes = exports.ActionTypes = {
 	    UPDATE_CREATE_TASK_INPUT: (0, _util.type)('[Create Form] Update Input'),
 	    RESET_CREATE_FORM: (0, _util.type)('[Create Form] Reset Fields'),
-	    SHOW_REQUIRED_FIELD_ERRORS: (0, _util.type)('[Create Form] Show Errors')
+	    SHOW_REQUIRED_FIELD_ERRORS: (0, _util.type)('[Create Form] Show Errors'),
+	    RESET_REQUIRED_FIELD_ERRORS: (0, _util.type)('[CreateForm] Hide Errors')
 	};
 	
 	var UpdateCreateInputAction = exports.UpdateCreateInputAction = function UpdateCreateInputAction(payload) {
@@ -67789,6 +67788,12 @@
 	
 	    this.payload = payload;
 	    this.type = ActionTypes.SHOW_REQUIRED_FIELD_ERRORS;
+	};
+	
+	var ResetErrorOnRequiredFieldsAction = exports.ResetErrorOnRequiredFieldsAction = function ResetErrorOnRequiredFieldsAction() {
+	    _classCallCheck(this, ResetErrorOnRequiredFieldsAction);
+	
+	    this.type = ActionTypes.RESET_REQUIRED_FIELD_ERRORS;
 	};
 
 /***/ },
@@ -67998,15 +68003,23 @@
 	
 	    switch (action.type) {
 	        case _createForm.ActionTypes.UPDATE_CREATE_TASK_INPUT:
-	            state[action.payload.name] = action.payload.value;
-	            return state;
+	            return {
+	                title: action.payload.name === 'title' ? action.payload.value : state.title,
+	                status: action.payload.name === 'status' ? action.payload.value : state.status,
+	                missingFields: state.missingFields
+	            };
 	        case _createForm.ActionTypes.RESET_CREATE_FORM:
-	            state.title = '';
-	            state.status = '';
-	            return state;
+	            return {
+	                title: '',
+	                status: '',
+	                missingFields: []
+	            };
 	        case _createForm.ActionTypes.SHOW_REQUIRED_FIELD_ERRORS:
-	            state.missingFields = action.payload.missingFields;
-	            return state;
+	            return {
+	                title: state.title,
+	                status: state.status,
+	                missingFields: []
+	            };
 	        default:
 	            return state;
 	    }
@@ -68036,13 +68049,17 @@
 	
 	    switch (action.type) {
 	        case _alert.ActionTypes.SHOW_ALERT:
-	            state.status = action.payload.status;
-	            state.message = action.payload.message;
-	            state.visible = true;
-	            return state;
+	            return {
+	                status: action.payload.status,
+	                message: action.payload.message,
+	                visible: true
+	            };
 	        case _alert.ActionTypes.HIDE_ALERT:
-	            state.visible = false;
-	            return state;
+	            return {
+	                status: state.status,
+	                message: state.message,
+	                visible: false
+	            };
 	        default:
 	            return state;
 	    }

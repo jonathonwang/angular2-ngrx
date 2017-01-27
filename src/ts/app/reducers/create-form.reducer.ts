@@ -16,17 +16,25 @@ export const createFormReducer: ActionReducer<any> = (state = initialState, acti
   switch (action.type) {
 
     case ActionTypes.UPDATE_CREATE_TASK_INPUT:
-      state[action.payload.name] = action.payload.value;
-      return state;
+      return {
+        title: action.payload.name === 'title' ? action.payload.value : state.title,
+        status: action.payload.name === 'status' ? action.payload.value : state.status,
+        missingFields: state.missingFields
+      };
 
     case ActionTypes.RESET_CREATE_FORM:
-      state.title = '';
-      state.status = '';
-      return state;
+      return {
+        title: '',
+        status: '',
+        missingFields: []
+      };
 
     case ActionTypes.SHOW_REQUIRED_FIELD_ERRORS:
-      state.missingFields = action.payload.missingFields;
-      return state;
+      return {
+        title: state.title,
+        status: state.status,
+        missingFields: []
+      };
 
     // Return state if action type is unknown
     default:

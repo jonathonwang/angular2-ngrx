@@ -6,23 +6,32 @@ import { Task } from '../models/task.model';
 import { ActionTypes } from '../actions/alert.actions';
 
 // the initial state of the tasks
-const initialState = {
+interface IAlertState {
+  status: string;
+  message: string;
+  visible: boolean;
+}
+const initialState: IAlertState = {
   status: '',
   message: '',
   visible: false
 };
 
-export const alertReducer: ActionReducer<any> = (state = initialState, action: Action) => {
+export const alertReducer: ActionReducer<any> = (state: IAlertState = initialState, action: Action) => {
   switch (action.type) {
     case ActionTypes.SHOW_ALERT:
-      state.status = action.payload.status;
-      state.message = action.payload.message;
-      state.visible = true;
-      return state;
+      return {
+        status: action.payload.status,
+        message: action.payload.message,
+        visible: true
+      };
 
     case ActionTypes.HIDE_ALERT:
-      state.visible = false;
-      return state;
+      return {
+        status: state.status,
+        message: state.message,
+        visible: false
+      };
 
     // Return state if action type is unknown
     default:

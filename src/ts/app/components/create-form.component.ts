@@ -30,9 +30,7 @@ export class CreateFormComponent {
     this.subscription = this.store.select('createForm').subscribe((createForm) => this.createForm = createForm as ICreateFormState);
   }
   updateInput(event: any): void {
-    const name = event.target.name;
-    const value = event.target.value;
-    this.store.dispatch(new createForm.UpdateCreateInputAction({ name, value }));
+    this.store.dispatch(new createForm.UpdateCreateInputAction({ name: event.target.name, value: event.target.value }));
   }
   createTask(event: any): void {
     event.preventDefault();
@@ -40,7 +38,7 @@ export class CreateFormComponent {
       this.store.dispatch(new task.CreateTaskAction(new Task({ title: this.createForm.title, status: this.createForm.status })));
       this.store.dispatch(new createForm.ResetCreateFormAction());
       this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
-      this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields: [] }));
+      this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
     } else {
       const requiredFields = ['title', 'status'];
       const missingFields = [];
