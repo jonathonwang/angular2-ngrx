@@ -31,7 +31,7 @@ module.exports = function (config) {
     // },
     reporters: [
       'spec',
-
+      // 'progress'
       // 'karma-remap-istanbul'
     ],
     port: 9876,
