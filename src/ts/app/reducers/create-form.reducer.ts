@@ -33,7 +33,7 @@ export const createFormReducer: ActionReducer<any> = (state = initialState, acti
       return {
         title: state.title,
         status: state.status,
-        missingFields: []
+        missingFields: action.payload.missingFields
       };
 
     // Return state if action type is unknown

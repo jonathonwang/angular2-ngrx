@@ -13,7 +13,6 @@ export class ShowAlertAction implements Action {
 
 export class HideAlertAction implements Action {
   type = ActionTypes.HIDE_ALERT;
-  constructor() { }
 }
 
 export type Action

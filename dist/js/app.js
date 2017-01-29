@@ -57851,7 +57851,7 @@
 	};
 	
 	var declarations = [_app.AppComponent, _createForm.CreateFormComponent, _alert.AlertComponent];
-	var combinedReducers = _store.StoreModule.provideStore({
+	var ProvideStoreModule = _store.StoreModule.provideStore({
 	    tasks: _task.taskReducer,
 	    createForm: _createForm2.createFormReducer,
 	    alert: _alert2.alertReducer
@@ -57861,7 +57861,7 @@
 	};
 	exports.AppModule = AppModule = __decorate([(0, _core.NgModule)({
 	    declarations: declarations,
-	    imports: [_platformBrowser.BrowserModule, _forms.FormsModule, _http.HttpModule, combinedReducers],
+	    imports: [_platformBrowser.BrowserModule, _forms.FormsModule, _http.HttpModule, ProvideStoreModule],
 	    providers: [],
 	    bootstrap: [_app.AppComponent]
 	})], AppModule);
@@ -67691,32 +67691,62 @@
 	    _createClass(CreateFormComponent, [{
 	        key: "updateInput",
 	        value: function updateInput(event) {
-	            this.store.dispatch(new createForm.UpdateCreateInputAction({ name: event.target.name, value: event.target.value }));
+	            var name = event.target.name;
+	            var value = event.target.value;
+	            this.store.dispatch(new createForm.UpdateCreateInputAction({ name: name, value: value }));
 	        }
 	    }, {
 	        key: "createTask",
-	        value: function createTask(event) {
+	        value: function createTask() {
+	            this.store.dispatch(new task.CreateTaskAction(new _task.Task({ title: this.createForm.title, status: this.createForm.status })));
+	            this.store.dispatch(new alert.HideAlertAction());
+	            this.store.dispatch(new createForm.ResetCreateFormAction());
+	            this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
+	        }
+	    }, {
+	        key: "failCreateTask",
+	        value: function failCreateTask(missingFields) {
+	            var missingFieldsMessage = this.formatMissingFieldsMessage(missingFields);
+	            this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields: missingFields }));
+	            this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: missingFieldsMessage }));
+	        }
+	    }, {
+	        key: "attemptCreateTask",
+	        value: function attemptCreateTask(event) {
+	            event.preventDefault();
+	            var requiredFields = ['title', 'status'];
+	            var missingFields = this.checkMissingFields(requiredFields);
+	            if (missingFields.length === 0) {
+	                this.createTask();
+	            } else {
+	                this.failCreateTask(missingFields);
+	            }
+	        }
+	    }, {
+	        key: "formatMissingFieldsMessage",
+	        value: function formatMissingFieldsMessage(missingFields) {
+	            var missingFieldsMessage = '';
+	            missingFields.map(function (field) {
+	                if (missingFields.indexOf(field) !== missingFields.length - 1) {
+	                    missingFieldsMessage += field + " And ";
+	                } else {
+	                    missingFieldsMessage += field;
+	                    missingFields.length > 1 ? missingFieldsMessage += ' Are' : missingFieldsMessage += ' Is';
+	                    missingFieldsMessage += ' Required';
+	                }
+	            });
+	            return missingFieldsMessage;
+	        }
+	    }, {
+	        key: "checkMissingFields",
+	        value: function checkMissingFields(requiredFields) {
 	            var _this2 = this;
 	
-	            event.preventDefault();
-	            if (this.createForm.title.length > 0 && this.createForm.status.length > 0) {
-	                this.store.dispatch(new task.CreateTaskAction(new _task.Task({ title: this.createForm.title, status: this.createForm.status })));
-	                this.store.dispatch(new createForm.ResetCreateFormAction());
-	                this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
-	                this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
-	            } else {
-	                (function () {
-	                    var requiredFields = ['title', 'status'];
-	                    var missingFields = [];
-	                    requiredFields.map(function (field) {
-	                        _this2.createForm[field].length === 0 ? missingFields.push(field) : '';
-	                    });
-	                    _this2.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields: missingFields }));
-	                    _this2.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: missingFields.map(function (field) {
-	                            return missingFields.indexOf(field) !== missingFields.length - 1 ? field + " And" : " " + field;
-	                        }) + " " + (missingFields.length > 1 ? 'Are' : 'Is') + " Required" }));
-	                })();
-	            }
+	            var missingFields = [];
+	            requiredFields.map(function (field) {
+	                if (!_this2.createForm[field]) missingFields.push(field);
+	            });
+	            return missingFields;
 	        }
 	    }]);
 	
@@ -67875,7 +67905,7 @@
 /* 318 */
 /***/ function(module, exports) {
 
-	module.exports = "<form>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('title')\">\n    <label for=\"title\" class=\"control-label\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\">\n  </div>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('status')\">\n    <label for=\"status\" class=\"control-label\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\">\n      <option value=\"\">--Choose a Status--</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"createTask($event)\">\n  </div>\n</form>\n"
+	module.exports = "<br>{{createForm | json}}\n<form>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('title')\">\n    <label for=\"title\" class=\"control-label\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\">\n  </div>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('status')\">\n    <label for=\"status\" class=\"control-label\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\">\n      <option value=\"\">--Choose a Status--</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"attemptCreateTask($event)\">\n  </div>\n</form>\n"
 
 /***/ },
 /* 319 */
@@ -67948,7 +67978,7 @@
 /* 320 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"alert alert-{{alert.status}} alert-dismissable text-capitalize text-center\"\n  [class.show]=\"alert.visible\"\n>\n  <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\"\n  (click)=\"closeAlert($event)\"\n  >\n    &times;\n  </a>\n  <strong>{{alert.status}}!</strong>\n  {{alert.message}}\n</div>\n"
+	module.exports = "{{alert | json}}\n<div class=\"alert alert-{{alert.status}} alert-dismissable text-capitalize text-center\"\n  [class.show]=\"alert.visible\"\n>\n  <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\"\n  (click)=\"closeAlert($event)\"\n  >\n    &times;\n  </a>\n  <strong>{{alert.status}}!</strong>\n  {{alert.message}}\n</div>\n"
 
 /***/ },
 /* 321 */
@@ -68018,7 +68048,7 @@
 	            return {
 	                title: state.title,
 	                status: state.status,
-	                missingFields: []
+	                missingFields: action.payload.missingFields
 	            };
 	        default:
 	            return state;

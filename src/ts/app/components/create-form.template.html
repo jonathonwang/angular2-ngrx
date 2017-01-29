@@ -1,3 +1,4 @@
+<br>{{createForm | json}}
 <form>
   <div class="form-group" [class.has-error]="createForm.missingFields.includes('title')">
     <label for="title" class="control-label">Title:</label>
@@ -13,6 +14,6 @@
     </select>
   </div>
   <div class="form-group">
-    <input type="submit" class="btn btn-primary" value="Submit" (click)="createTask($event)">
+    <input type="submit" class="btn btn-primary" value="Submit" (click)="attemptCreateTask($event)">
   </div>
 </form>

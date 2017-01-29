@@ -24,7 +24,7 @@ const declarations = [
   AlertComponent
 ];
 
-const combinedReducers = StoreModule.provideStore({
+const ProvideStoreModule = StoreModule.provideStore({
   tasks: taskReducer,
   createForm: createFormReducer,
   alert: alertReducer
@@ -37,7 +37,7 @@ const combinedReducers = StoreModule.provideStore({
     FormsModule,
     HttpModule,
     // Store module
-    combinedReducers
+    ProvideStoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

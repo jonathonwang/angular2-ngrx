@@ -4,6 +4,7 @@ import { State, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/subscription';
 
+// Model Imports
 import { Task } from '../models/task.model';
 
 // Action Imports
@@ -30,23 +31,53 @@ export class CreateFormComponent {
     this.subscription = this.store.select('createForm').subscribe((createForm) => this.createForm = createForm as ICreateFormState);
   }
   updateInput(event: any): void {
-    this.store.dispatch(new createForm.UpdateCreateInputAction({ name: event.target.name, value: event.target.value }));
+    const name = event.target.name;
+    const value = event.target.value;
+    this.store.dispatch(new createForm.UpdateCreateInputAction({ name, value }));
   }
-  createTask(event: any): void {
+  createTask() {
+    this.store.dispatch(new task.CreateTaskAction(new Task({ title: this.createForm.title, status: this.createForm.status })));
+    // this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
+    this.store.dispatch(new alert.HideAlertAction());
+    this.store.dispatch(new createForm.ResetCreateFormAction());
+    this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
+  }
+  failCreateTask(missingFields: Array<string>): void {
+    const missingFieldsMessage = this.formatMissingFieldsMessage(missingFields);
+    this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields }));
+    this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: missingFieldsMessage}));
+  }
+  attemptCreateTask(event: any): void {
     event.preventDefault();
-    if (this.createForm.title.length > 0 && this.createForm.status.length > 0) {
-      this.store.dispatch(new task.CreateTaskAction(new Task({ title: this.createForm.title, status: this.createForm.status })));
-      this.store.dispatch(new createForm.ResetCreateFormAction());
-      this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
-      this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
+    const requiredFields = ['title', 'status'];
+    const missingFields = this.checkMissingFields(requiredFields);
+    if (missingFields.length === 0) {
+      this.createTask();
     } else {
-      const requiredFields = ['title', 'status'];
-      const missingFields = [];
-      requiredFields.map((field) => {
-        this.createForm[field].length === 0 ? missingFields.push(field) : '';
-      });
-      this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields }));
-      this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: `${missingFields.map((field) => missingFields.indexOf(field) !== missingFields.length - 1 ? `${field} And` : ` ${field}`)} ${missingFields.length > 1 ? 'Are' : 'Is'} Required` }));
+      this.failCreateTask(missingFields);
     }
+  }
+
+
+  // Helpers
+  formatMissingFieldsMessage(missingFields: Array<string>): string {
+    let missingFieldsMessage = '';
+    missingFields.map((field) => {
+      if (missingFields.indexOf(field) !== missingFields.length - 1) {
+        missingFieldsMessage += `${field} And `;
+      } else {
+        missingFieldsMessage += field;
+        missingFields.length > 1 ? missingFieldsMessage += ' Are' : missingFieldsMessage += ' Is';
+        missingFieldsMessage += ' Required';
+      }
+    });
+    return missingFieldsMessage;
+  }
+  checkMissingFields(requiredFields: Array<string>): Array<string> {
+    const missingFields = [];
+    requiredFields.map((field) => {
+      if (!this.createForm[field]) missingFields.push(field);
+    });
+    return missingFields;
   }
 }
