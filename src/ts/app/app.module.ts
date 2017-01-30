@@ -24,7 +24,7 @@ const declarations = [
   AlertComponent
 ];
 
-const ProvideStoreModule = StoreModule.provideStore({
+export const ProvideStoreModule = StoreModule.provideStore({
   tasks: taskReducer,
   createForm: createFormReducer,
   alert: alertReducer

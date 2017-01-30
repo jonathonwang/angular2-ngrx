@@ -57813,7 +57813,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.AppModule = undefined;
+	exports.AppModule = exports.ProvideStoreModule = undefined;
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
@@ -57851,7 +57851,7 @@
 	};
 	
 	var declarations = [_app.AppComponent, _createForm.CreateFormComponent, _alert.AlertComponent];
-	var ProvideStoreModule = _store.StoreModule.provideStore({
+	var ProvideStoreModule = exports.ProvideStoreModule = _store.StoreModule.provideStore({
 	    tasks: _task.taskReducer,
 	    createForm: _createForm2.createFormReducer,
 	    alert: _alert2.alertReducer

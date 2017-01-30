@@ -16,7 +16,7 @@ describe('Alert Reducer', () => {
   it('Should return state with visible false', () => {
     const visibleAlert = { status: 'Danger', message: 'Message', visible: true  };
     const actual = alertReducer(visibleAlert, { type: ActionTypes.HIDE_ALERT, payload: {} });
-    const expected = { status: '', message: '', visible: false };
+    const expected = { status: visibleAlert.status, message: visibleAlert.message, visible: false };
     expect(actual).toEqual(expected);
   });
 });
