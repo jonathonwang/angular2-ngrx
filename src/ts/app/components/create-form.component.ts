@@ -30,27 +30,26 @@ export class CreateFormComponent {
   constructor (private store: Store<ICreateFormState>) {
     this.subscription = this.store.select('createForm').subscribe((createForm) => this.createForm = createForm as ICreateFormState);
   }
-  updateInput(event: any): void {
+  private updateInput(event: any): void {
     const name = event.target.name;
     const value = event.target.value;
     this.store.dispatch(new createForm.UpdateCreateInputAction({ name, value }));
   }
-  createTask() {
+  private createTask() {
     this.store.dispatch(new task.CreateTaskAction(new Task({ title: this.createForm.title, status: this.createForm.status })));
     // this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
     this.store.dispatch(new alert.HideAlertAction());
     this.store.dispatch(new createForm.ResetCreateFormAction());
     this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
   }
-  failCreateTask(missingFields: Array<string>): void {
+  private failCreateTask(missingFields: Array<string>): void {
     const missingFieldsMessage = this.formatMissingFieldsMessage(missingFields);
     this.store.dispatch(new createForm.ShowErrorOnRequiredFieldsAction({ missingFields }));
     this.store.dispatch(new alert.ShowAlertAction({ status: 'danger', message: missingFieldsMessage}));
   }
-  attemptCreateTask(event: any): void {
+  private attemptCreateTask(event: any): void {
     event.preventDefault();
-    const requiredFields = ['title', 'status'];
-    const missingFields = this.checkMissingFields(requiredFields);
+    const missingFields = this.getMissingFields();
     if (missingFields.length === 0) {
       this.createTask();
     } else {
@@ -60,7 +59,7 @@ export class CreateFormComponent {
 
 
   // Helpers
-  formatMissingFieldsMessage(missingFields: Array<string>): string {
+  private formatMissingFieldsMessage(missingFields: Array<string>): string {
     let missingFieldsMessage = '';
     missingFields.map((field) => {
       if (missingFields.indexOf(field) !== missingFields.length - 1) {
@@ -73,11 +72,13 @@ export class CreateFormComponent {
     });
     return missingFieldsMessage;
   }
-  checkMissingFields(requiredFields: Array<string>): Array<string> {
-    const missingFields = [];
-    requiredFields.map((field) => {
-      if (!this.createForm[field]) missingFields.push(field);
+  // Check HTML for input fields that contain [required] attribute
+  private getMissingFields(): Array<string> {
+    let inputFields = [].slice.call(document.querySelectorAll('#create-form [required]'));
+    const requiredFields = inputFields.map((field) => field.name);
+    return requiredFields.filter((field) => {
+      if (!this.createForm[field]) return field;
     });
-    return missingFields;
   }
+
 }

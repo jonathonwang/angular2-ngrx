@@ -1,12 +1,12 @@
 <br>{{createForm | json}}
-<form>
+<form id="create-form">
   <div class="form-group" [class.has-error]="createForm.missingFields.includes('title')">
     <label for="title" class="control-label">Title:</label>
-    <input type="text" name="title" class="form-control" [ngModel]="createForm.title" (keyup)="updateInput($event)">
+    <input type="text" name="title" class="form-control" [ngModel]="createForm.title" (keyup)="updateInput($event)" required>
   </div>
   <div class="form-group" [class.has-error]="createForm.missingFields.includes('status')">
     <label for="status" class="control-label">Status:</label>
-    <select class="form-control" name="status" [ngModel]="createForm.status" (change)="updateInput($event)">
+    <select class="form-control" name="status" [ngModel]="createForm.status" (change)="updateInput($event)" required>
       <option value="">--Choose a Status--</option>
       <option value="planned">Planned</option>
       <option value="in-progress">In-Progress</option>

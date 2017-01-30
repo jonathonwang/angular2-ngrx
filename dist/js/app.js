@@ -67714,8 +67714,7 @@
 	        key: "attemptCreateTask",
 	        value: function attemptCreateTask(event) {
 	            event.preventDefault();
-	            var requiredFields = ['title', 'status'];
-	            var missingFields = this.checkMissingFields(requiredFields);
+	            var missingFields = this.getMissingFields();
 	            if (missingFields.length === 0) {
 	                this.createTask();
 	            } else {
@@ -67738,15 +67737,17 @@
 	            return missingFieldsMessage;
 	        }
 	    }, {
-	        key: "checkMissingFields",
-	        value: function checkMissingFields(requiredFields) {
+	        key: "getMissingFields",
+	        value: function getMissingFields() {
 	            var _this2 = this;
 	
-	            var missingFields = [];
-	            requiredFields.map(function (field) {
-	                if (!_this2.createForm[field]) missingFields.push(field);
+	            var inputFields = [].slice.call(document.querySelectorAll('#create-form [required]'));
+	            var requiredFields = inputFields.map(function (field) {
+	                return field.name;
 	            });
-	            return missingFields;
+	            return requiredFields.filter(function (field) {
+	                if (!_this2.createForm[field]) return field;
+	            });
 	        }
 	    }]);
 	
@@ -67905,7 +67906,7 @@
 /* 318 */
 /***/ function(module, exports) {
 
-	module.exports = "<br>{{createForm | json}}\n<form>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('title')\">\n    <label for=\"title\" class=\"control-label\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\">\n  </div>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('status')\">\n    <label for=\"status\" class=\"control-label\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\">\n      <option value=\"\">--Choose a Status--</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"attemptCreateTask($event)\">\n  </div>\n</form>\n"
+	module.exports = "<br>{{createForm | json}}\n<form id=\"create-form\">\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('title')\">\n    <label for=\"title\" class=\"control-label\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\" required>\n  </div>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('status')\">\n    <label for=\"status\" class=\"control-label\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\" required>\n      <option value=\"\">--Choose a Status--</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"attemptCreateTask($event)\">\n  </div>\n</form>\n"
 
 /***/ },
 /* 319 */
