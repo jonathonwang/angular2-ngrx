@@ -74,7 +74,8 @@ export class CreateFormComponent {
   }
   // Check HTML for input fields that contain [required] attribute
   private getMissingFields(): Array<string> {
-    let inputFields = [].slice.call(document.querySelectorAll('#create-form [required]'));
+    const elementList = document.querySelectorAll('#create-form [required]');
+    let inputFields = [].slice.call(elementList);
     const requiredFields = inputFields.map((field) => field.name);
     return requiredFields.filter((field) => {
       if (!this.createForm[field]) return field;

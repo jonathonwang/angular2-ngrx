@@ -67741,7 +67741,8 @@
 	        value: function getMissingFields() {
 	            var _this2 = this;
 	
-	            var inputFields = [].slice.call(document.querySelectorAll('#create-form [required]'));
+	            var elementList = document.querySelectorAll('#create-form [required]');
+	            var inputFields = [].slice.call(elementList);
 	            var requiredFields = inputFields.map(function (field) {
 	                return field.name;
 	            });
@@ -67906,7 +67907,7 @@
 /* 318 */
 /***/ function(module, exports) {
 
-	module.exports = "<br>{{createForm | json}}\n<form id=\"create-form\">\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('title')\">\n    <label for=\"title\" class=\"control-label\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\" required>\n  </div>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('status')\">\n    <label for=\"status\" class=\"control-label\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\" required>\n      <option value=\"\">--Choose a Status--</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"attemptCreateTask($event)\">\n  </div>\n</form>\n"
+	module.exports = "<form id=\"create-form\">\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('title')\">\n    <label for=\"title\" class=\"control-label\">Title:</label>\n    <input type=\"text\" name=\"title\" class=\"form-control\" [ngModel]=\"createForm.title\" (keyup)=\"updateInput($event)\" required>\n  </div>\n  <div class=\"form-group\" [class.has-error]=\"createForm.missingFields.includes('status')\">\n    <label for=\"status\" class=\"control-label\">Status:</label>\n    <select class=\"form-control\" name=\"status\" [ngModel]=\"createForm.status\" (change)=\"updateInput($event)\" required>\n      <option value=\"\">--Choose a Status--</option>\n      <option value=\"planned\">Planned</option>\n      <option value=\"in-progress\">In-Progress</option>\n      <option value=\"completed\">Completed</option>\n    </select>\n  </div>\n  <div class=\"form-group\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\" (click)=\"attemptCreateTask($event)\">\n  </div>\n</form>\n"
 
 /***/ },
 /* 319 */
@@ -67979,7 +67980,7 @@
 /* 320 */
 /***/ function(module, exports) {
 
-	module.exports = "{{alert | json}}\n<div class=\"alert alert-{{alert.status}} alert-dismissable text-capitalize text-center\"\n  [class.show]=\"alert.visible\"\n>\n  <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\"\n  (click)=\"closeAlert($event)\"\n  >\n    &times;\n  </a>\n  <strong>{{alert.status}}!</strong>\n  {{alert.message}}\n</div>\n"
+	module.exports = "<div class=\"alert alert-{{alert.status}} alert-dismissable text-capitalize text-center\"\n  [class.show]=\"alert.visible\"\n>\n  <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\"\n  (click)=\"closeAlert($event)\"\n  >\n    &times;\n  </a>\n  <strong>{{alert.status}}!</strong>\n  {{alert.message}}\n</div>\n"
 
 /***/ },
 /* 321 */
