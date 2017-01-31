@@ -22,7 +22,7 @@ describe('Alert Component', () => {
     // Reset Testing Environment
     TestBed.resetTestingModule();
     TestBed.resetTestEnvironment();
-    // Configure Testing Enforionment
+    // Configure Testing Environment
     TestBed.configureTestingModule({
       declarations: [AlertComponent],
       imports: [ProvideStoreModule],
@@ -37,8 +37,12 @@ describe('Alert Component', () => {
       BrowserDynamicTestingModule,
       platformBrowserDynamicTesting()
     );
+    // Compile Component
     TestBed.compileComponents();
     const fixture = TestBed.createComponent(AlertComponent);
+    // Detect Changes and update Component
+    fixture.detectChanges();
+    // Hoist Component and element to be used in tests
     component = fixture.componentInstance;
     element = fixture.nativeElement;
   }));

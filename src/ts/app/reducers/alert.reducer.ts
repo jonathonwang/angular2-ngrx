@@ -11,7 +11,7 @@ interface IAlertState {
   message: string;
   visible: boolean;
 }
-const initialState: IAlertState = {
+export const initialState: IAlertState = {
   status: '',
   message: '',
   visible: false

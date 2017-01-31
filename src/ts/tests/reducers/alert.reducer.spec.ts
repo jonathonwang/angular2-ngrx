@@ -1,7 +1,6 @@
-import { alertReducer } from '../../app/reducers/alert.reducer';
+import { alertReducer, initialState } from '../../app/reducers/alert.reducer';
 import { ActionTypes } from '../../app/actions/alert.actions';
 
-const initialState = { status: '', message: '', visible: false };
 describe('Alert Reducer', () => {
   it('Should return default state given Invalid Action', () => {
     const actual = alertReducer(initialState, { type: 'INVALID', payload: {} });

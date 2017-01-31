@@ -6,7 +6,7 @@ import { Task } from '../models/task.model';
 import { ActionTypes } from '../actions/create-form.actions';
 
 // the initial state of the tasks
-const initialState = {
+export const initialState = {
   title: '',
   status: '',
   missingFields: []

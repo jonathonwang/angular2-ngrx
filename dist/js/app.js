@@ -67991,13 +67991,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.taskReducer = undefined;
+	exports.taskReducer = exports.initialState = undefined;
 	
 	var _task = __webpack_require__(316);
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
-	var initialState = [];
+	var initialState = exports.initialState = [];
 	var taskReducer = exports.taskReducer = function taskReducer() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
 	    var action = arguments[1];
@@ -68020,11 +68020,11 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.createFormReducer = undefined;
+	exports.createFormReducer = exports.initialState = undefined;
 	
 	var _createForm = __webpack_require__(314);
 	
-	var initialState = {
+	var initialState = exports.initialState = {
 	    title: '',
 	    status: '',
 	    missingFields: []
@@ -68066,11 +68066,11 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.alertReducer = undefined;
+	exports.alertReducer = exports.initialState = undefined;
 	
 	var _alert = __webpack_require__(317);
 	
-	var initialState = {
+	var initialState = exports.initialState = {
 	    status: '',
 	    message: '',
 	    visible: false
