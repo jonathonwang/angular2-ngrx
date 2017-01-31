@@ -23,13 +23,7 @@ export class ShowErrorOnRequiredFieldsAction implements Action {
   constructor(public payload: { missingFields: Array<string> }) { }
 }
 
-export class ResetErrorOnRequiredFieldsAction implements Action {
-  type = ActionTypes.RESET_REQUIRED_FIELD_ERRORS;
-  constructor() { }
-}
-
 export type Action
   = UpdateCreateInputAction
   | ResetCreateFormAction
-  | ShowErrorOnRequiredFieldsAction
-  | ResetErrorOnRequiredFieldsAction;
+  | ShowErrorOnRequiredFieldsAction;

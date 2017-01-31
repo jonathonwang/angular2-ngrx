@@ -67701,7 +67701,6 @@
 	            this.store.dispatch(new task.CreateTaskAction(new _task.Task({ title: this.createForm.title, status: this.createForm.status })));
 	            this.store.dispatch(new alert.HideAlertAction());
 	            this.store.dispatch(new createForm.ResetCreateFormAction());
-	            this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
 	        }
 	    }, {
 	        key: "failCreateTask",
@@ -67789,7 +67788,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.ResetErrorOnRequiredFieldsAction = exports.ShowErrorOnRequiredFieldsAction = exports.ResetCreateFormAction = exports.UpdateCreateInputAction = exports.ActionTypes = undefined;
+	exports.ShowErrorOnRequiredFieldsAction = exports.ResetCreateFormAction = exports.UpdateCreateInputAction = exports.ActionTypes = undefined;
 	
 	var _util = __webpack_require__(315);
 	
@@ -67820,12 +67819,6 @@
 	
 	    this.payload = payload;
 	    this.type = ActionTypes.SHOW_REQUIRED_FIELD_ERRORS;
-	};
-	
-	var ResetErrorOnRequiredFieldsAction = exports.ResetErrorOnRequiredFieldsAction = function ResetErrorOnRequiredFieldsAction() {
-	    _classCallCheck(this, ResetErrorOnRequiredFieldsAction);
-	
-	    this.type = ActionTypes.RESET_REQUIRED_FIELD_ERRORS;
 	};
 
 /***/ },

@@ -40,7 +40,6 @@ export class CreateFormComponent {
     // this.store.dispatch(new alert.ShowAlertAction({ status: 'success', message: 'Task Successfully Created' }));
     this.store.dispatch(new alert.HideAlertAction());
     this.store.dispatch(new createForm.ResetCreateFormAction());
-    this.store.dispatch(new createForm.ResetErrorOnRequiredFieldsAction());
   }
   private failCreateTask(missingFields: Array<string>): void {
     const missingFieldsMessage = this.formatMissingFieldsMessage(missingFields);
