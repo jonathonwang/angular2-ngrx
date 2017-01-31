@@ -13,7 +13,7 @@ module.exports = {
       },
       {
         exclude: /node_modules/,
-        loaders: ['babel-loader', 'ts-loader'],
+        loaders: ['babel-loader', 'ts-loader', 'angular2-template-loader'],
         test: /\.ts$/
       }
     ]
