@@ -38,17 +38,17 @@ describe('Create Form Component', () => {
       platformBrowserDynamicTesting()
     );
     // Compile Component
-    // TestBed.compileComponents();
-    // const fixture = TestBed.createComponent(CreateFormComponent);
+    TestBed.compileComponents();
+    const fixture = TestBed.createComponent(CreateFormComponent);
     // // Detect Changes and update Component
-    // fixture.detectChanges();
+    fixture.detectChanges();
     // // Hoist Component and element to be used in tests
-    // component = fixture.componentInstance;
-    // element = fixture.nativeElement;
+    component = fixture.componentInstance;
+    element = fixture.nativeElement;
   }));
 
   it('Should Have a Defined Component', () => {
     // expect(component).toBeDefined();
-    // console.log(component);
+    expect(true).toEqual(true);
   });
 });
