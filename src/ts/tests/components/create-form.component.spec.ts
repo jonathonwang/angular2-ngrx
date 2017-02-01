@@ -104,4 +104,14 @@ describe('CreateForm Component', () => {
     const expected = ['status'];
     expect(actual).toEqual(expected);
   });
+  it('Should Return Formatted Missing Fields Message with Two Fields', () => {
+    const actual = component.formatMissingFieldsMessage(['1', '2']);
+    const expected = '1 And 2 Are Required';
+    expect(actual).toEqual(expected);
+  });
+  it('Should Return Formatted Missing Fields Message with One Field', () => {
+    const actual = component.formatMissingFieldsMessage(['1']);
+    const expected = '1 Is Required';
+    expect(actual).toEqual(expected);
+  });
 });
