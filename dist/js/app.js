@@ -57813,7 +57813,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.AppModule = exports.ProvideStoreModule = undefined;
+	exports.AppModule = exports.providers = exports.imports = exports.ProvideStoreModule = exports.declarations = undefined;
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
@@ -57849,20 +57849,21 @@
 	        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
 	    }return c > 3 && r && Object.defineProperty(target, key, r), r;
 	};
-	
-	var declarations = [_app.AppComponent, _createForm.CreateFormComponent, _alert.AlertComponent];
+	var declarations = exports.declarations = [_app.AppComponent, _createForm.CreateFormComponent, _alert.AlertComponent];
 	var ProvideStoreModule = exports.ProvideStoreModule = _store.StoreModule.provideStore({
 	    tasks: _task.taskReducer,
 	    createForm: _createForm2.createFormReducer,
 	    alert: _alert2.alertReducer
 	});
+	var imports = exports.imports = [_platformBrowser.BrowserModule, _forms.FormsModule, _http.HttpModule, ProvideStoreModule];
+	var providers = exports.providers = [];
 	var AppModule = function AppModule() {
 	    _classCallCheck(this, AppModule);
 	};
 	exports.AppModule = AppModule = __decorate([(0, _core.NgModule)({
 	    declarations: declarations,
-	    imports: [_platformBrowser.BrowserModule, _forms.FormsModule, _http.HttpModule, ProvideStoreModule],
-	    providers: [],
+	    imports: imports,
+	    providers: providers,
 	    bootstrap: [_app.AppComponent]
 	})], AppModule);
 	exports.AppModule = AppModule;

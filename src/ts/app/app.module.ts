@@ -18,7 +18,7 @@ import { taskReducer } from './reducers/task.reducer';
 import { createFormReducer } from './reducers/create-form.reducer';
 import { alertReducer } from './reducers/alert.reducer';
 
-const declarations = [
+export const declarations = [
   AppComponent,
   CreateFormComponent,
   AlertComponent
@@ -30,16 +30,20 @@ export const ProvideStoreModule = StoreModule.provideStore({
   alert: alertReducer
 });
 
+export const imports = [
+  BrowserModule,
+  FormsModule,
+  HttpModule,
+  // Store module
+  ProvideStoreModule
+];
+
+export const providers = [];
+
 @NgModule({
   declarations,
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    // Store module
-    ProvideStoreModule
-  ],
-  providers: [],
+  imports,
+  providers,
   bootstrap: [AppComponent]
 })
 export class AppModule { }
