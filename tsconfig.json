@@ -11,15 +11,18 @@
     "removeComments": true
   },
   "filesGlob": [
-    "src/ts/**/**/*.ts"
+    "src/ts/app/**/*.ts",
+    "src/ts/tests/e2e/**/*.ts",
+    "src/ts/tests/unit/**/*.spec.ts"
   ],
   "exclude": [
     "node_modules"
   ],
   "typeRoots": [
-    "./node_modules/@types"
+    "node_modules/@types"
   ],
   "types": [
-    "jasmine"
+    "jasmine",
+    "protractor"
   ]
 }

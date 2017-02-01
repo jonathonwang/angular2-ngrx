@@ -1,5 +1,5 @@
-import { alertReducer, initialState } from '../../app/reducers/alert.reducer';
-import { ActionTypes } from '../../app/actions/alert.actions';
+import { alertReducer, initialState } from '../../../app/reducers/alert.reducer';
+import { ActionTypes } from '../../../app/actions/alert.actions';
 
 describe('Alert Reducer', () => {
   it('Should return default state given Invalid Action', () => {

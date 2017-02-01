@@ -1,4 +1,4 @@
-import * as createForm from '../../app/actions/create-form.actions';
+import * as createForm from '../../../app/actions/create-form.actions';
 
 describe('Create Form Actions', () => {
   it('UpdateCreateInputAction Should Have Correct Payload and Type', () => {

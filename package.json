@@ -1,11 +1,12 @@
 {
-  "name": "angular2-todo",
+  "name": "angular2-ngrx",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "karma start ./karma.conf.babel.js",
     "test:headless": "karma start ./karma.conf.babel.js --browsers PhantomJS",
+    "test:e2e": "protractor protractor.conf.babel.js",
     "build": "webpack",
     "build-prod": "webpack -p --config ./webpack.production-config.babel.js",
     "dev": "webpack-dev-server"
@@ -64,7 +65,7 @@
     "node-sass": "^4.3.0",
     "phantomjs-prebuilt": "^2.1.14",
     "precss": "^1.4.0",
-    "protractor": "^5.0.0",
+    "protractor": "^5.1.0",
     "sass-loader": "^4.1.1",
     "selenium-webdriver": "^2.53.3",
     "style-loader": "^0.13.1",
@@ -73,6 +74,7 @@
     "tslint": "^4.1.1",
     "tslint-eslint-rules": "^3.1.0",
     "typescript": "^2.0.2",
+    "webdriver-manager": "^12.0.1",
     "webpack": "^1.12.6",
     "webpack-dev-server": "^1.16.2",
     "webpack-notifier": "^1.5.0"

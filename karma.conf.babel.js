@@ -15,10 +15,10 @@ module.exports = function (config) {
       require('karma-spec-reporter')
     ],
     files: [
-      './src/ts/tests/karma.entry.ts'
+      './src/ts/tests/unit/karma.entry.ts'
     ],
     preprocessors: {
-      './src/ts/tests/karma.entry.ts': ['webpack', 'sourcemap']
+      './src/ts/tests/unit/karma.entry.ts': ['webpack', 'sourcemap']
     },
     mime: {
       'text/x-typescript': ['ts','tsx']

@@ -1,10 +1,10 @@
 // Angular Testing Module Imports
 import { TestBed, async } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { declarations, imports, providers } from '../../app/app.module';
+import { declarations, imports, providers } from '../../../app/app.module';
 
 // Component Import
-import { AlertComponent } from '../../app/components/alert.component';
+import { AlertComponent } from '../../../app/components/alert.component';
 
 describe('Alert Component', () => {
   let component: AlertComponent;

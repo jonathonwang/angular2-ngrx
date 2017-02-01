@@ -1,10 +1,10 @@
 // Angular Testing Module Imports
 import { TestBed, async } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { declarations, imports, providers } from '../../app/app.module';
+import { declarations, imports, providers } from '../../../app/app.module';
 
 // Component Import
-import { CreateFormComponent } from '../../app/components/create-form.component';
+import { CreateFormComponent } from '../../../app/components/create-form.component';
 
 describe('CreateForm Component', () => {
   let component: CreateFormComponent;

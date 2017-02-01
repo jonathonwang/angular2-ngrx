@@ -1,5 +1,5 @@
-import { createFormReducer, initialState } from '../../app/reducers/create-form.reducer';
-import { ActionTypes } from '../../app/actions/create-form.actions';
+import { createFormReducer, initialState } from '../../../app/reducers/create-form.reducer';
+import { ActionTypes } from '../../../app/actions/create-form.actions';
 
 describe('Create Form Reducer', () => {
   it('Should return default state given Invalid Action', () => {

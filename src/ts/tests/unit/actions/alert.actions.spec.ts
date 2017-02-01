@@ -1,4 +1,4 @@
-import * as alert from '../../app/actions/alert.actions';
+import * as alert from '../../../app/actions/alert.actions';
 
 describe('Alert Actions', () => {
   it('ShowAlertAction Should Have Correct Payload and Type', () => {
