@@ -41,16 +41,19 @@ describe('CreateForm Component', () => {
     element = fixture.nativeElement;
   });
 
-  // Begin Testing
+  // Begin Testing Properties
   it('Should Have a Defined Component', () => {
     expect(component).toBeDefined();
   });
   it('Should Have A createForm Property', () => {
     expect(component.createForm).toBeDefined();
+    const expected = { title: '', status: '', missingFields: [] };
+    expect(component.createForm).toEqual(expected);
   });
   it('Should Have A subscription Property', () => {
     expect(component.subscription).toBeDefined();
   });
+  // Begin Testing Methods
   it('Should Update createForm Title', () => {
     component.updateInput({ target: { name: 'title', value: '123' } });
     const expected = { title: '123', status: '', missingFields: [] };
